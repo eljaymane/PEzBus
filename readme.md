@@ -64,7 +64,7 @@ var event = new MonSuperEvent(...params);
 eventBus.Publish(event);
 ```
 
-Ensuite, toutes les méthodes ayant paramètre de l'attribut Subscribe le type MonSuperEvent ```[Subscribe(typeof(MonSuperEvent))]``` seront invokés.
+Ensuite, toutes les méthodes ayant comme paramètre de l'attribut Subscribe le type MonSuperEvent ```[Subscribe(typeof(MonSuperEvent))]``` seront invokés.
 
 
 
