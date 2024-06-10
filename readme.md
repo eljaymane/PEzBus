@@ -37,7 +37,7 @@ Principalement du café et optionellement un clavier
 
 ## Démarrage
 
-*L'utilisation est plutôt simple : 
+L'utilisation est plutôt simple : 
 - Créer des classes représentants des évènements (accessoirement avec des attributs pour la transmission de donnée) qui implémente l'interface IEzEvent. L'idéale est de choisir des noms claires qui définissent l'évènement en question : i.e OrderCreatedEvent
 - Implémenter des méthodes décorées avec l'attribut Subscribe comme suit : 
     ```
@@ -47,6 +47,7 @@ Principalement du café et optionellement un clavier
     }
     ```
     ou encore : 
+
      ```
     [Subscribe(typeof(MonSuperEvent))]
     public void MaSuperMethode(MonSuperEvent event){
@@ -75,14 +76,13 @@ Ensuite, toutes les méthodes ayant paramètre de l'attribut Subscribe le type M
 Implémentation du bus d'évènements qui constitue le coeur du projet
 
 ## TODO : 
-Modéliser l'impacte que pourrait avoir un évènement sur les données existante dans l'application en se basant sur le nom des évènements, le noms des méthodes, ainsi que les commentaires XML.
+Modéliser l'impacte que pourrait avoir un évènement sur les données existantes dans l'application en se basant sur le nom des évènements, le nom des méthodes, ainsi que les commentaires XML.
 
 ## Auteurs
-Listez le(s) auteur(s) du projet ici !
+
 * **Aymane EL JAHRANI** _alias_ [@eljaymane](https://github.com/eljaymane)
 
 
 ## License
 
-Ce projet est sous licence ``exemple: WTFTPL`` - voir le fichier [LICENSE.md](LICENSE.md) pour plus d'informations
 
