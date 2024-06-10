@@ -26,6 +26,11 @@ namespace EasyBusTest
         public void Should_Call_Method_With_Args_When_Event_Is_Published()
         {
             eventBus.Publish(new TestEvent("Called you maybe"));
+            eventBus.Publish(new TestEvent("1"));
+            eventBus.Publish(new TestEvent("2"));
+            eventBus.Publish(new TestEvent("3"));
+            eventBus.Publish(new TestEvent("4"));
+            eventBus.Publish(new TestEvent("5"));
         }
 
 

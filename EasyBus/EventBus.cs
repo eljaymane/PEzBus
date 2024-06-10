@@ -9,7 +9,7 @@ namespace EasyBus
         {
 
         }
-        public void Publish(IEvent @event)
+        public void Publish(IEzEvent @event)
         {
             var methods = AppDomain.CurrentDomain.GetAssemblies()
                    .SelectMany(x => x.GetTypes())

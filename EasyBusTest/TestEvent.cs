@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EasyBusTest
 {
-    public class TestEvent : IEvent
+    public class TestEvent : IEzEvent
     {
         public string Message { get; set; }
         public TestEvent()

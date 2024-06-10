@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.10.34928.147
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyBus", "EasyBus\EasyBus.csproj", "{F0E9828F-D2D9-40AA-94EC-D562431FFEDC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEzBus", "EasyBus\PEzBus.csproj", "{F0E9828F-D2D9-40AA-94EC-D562431FFEDC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EasyBusTest", "EasyBusTest\EasyBusTest.csproj", "{EFEAB2FA-ABBB-4A72-91B9-B51E4B486CBF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PEzBusTest", "EasyBusTest\PEzBusTest.csproj", "{EFEAB2FA-ABBB-4A72-91B9-B51E4B486CBF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyBus
 {
-    public interface IEventBus<T> where T : IEvent
+    public interface IEzBus<T> where T : IEzEvent
     {
         void Publish(T @event);
     }

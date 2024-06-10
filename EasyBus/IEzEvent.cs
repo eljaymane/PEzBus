@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EasyBus
 {
-    public interface IEvent
+    public interface IEzEvent
     {
 
     }
