@@ -9,5 +9,15 @@ namespace EasyBusTest
 {
     public class TestEvent : IEvent
     {
+        public string Message { get; set; }
+        public TestEvent()
+        {
+                
+        }
+
+        public TestEvent(string message)
+        {
+            Message = message;
+        }
     }
 }

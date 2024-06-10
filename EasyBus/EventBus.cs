@@ -23,8 +23,12 @@ namespace EasyBus
 
             foreach (var method in methods)
             {
+                var param = method.GetParameters()
+                    .Where(x => x.ParameterType.Equals(@event.GetType()))
+                    .FirstOrDefault();
                 var obj = Activator.CreateInstance(method.DeclaringType);
-                method.Invoke(obj, null);
+                if(param !=null) method.Invoke(obj, new object[] { @event });
+                else method.Invoke(obj, null);
             }
         }
     }
