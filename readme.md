@@ -40,23 +40,32 @@ L'utilisation est plutôt simple :
 - Créer des classes représentants des évènements (accessoirement avec des attributs pour la transmission de donnée) qui implémente l'interface IEzEvent. L'idéale est de choisir des noms claires qui définissent l'évènement en question : i.e OrderCreatedEvent
 - Implémenter des méthodes décorées avec l'attribut Subscribe comme suit : 
     ```
-    [Subscribe(typeof(MonSuperEvent))]
-    public void MaSuperMethode(){
-        ...
+    public class LaClass {
+        [Subscribe(typeof(MonSuperEvent))]
+        public void MaSuperMethode(){
+            ...
+        }
     }
     ```
     ou encore : 
 
      ```
-    [Subscribe(typeof(MonSuperEvent))]
-    public void MaSuperMethode(MonSuperEvent event){
-        var eventArg = event.GetEventArg();
-        eventArg.TransformationSayen();
+    public class LaClass {
+        [Subscribe(typeof(MonSuperEvent))]
+        public void MaSuperMethode(MonSuperEvent event){
+            var eventArg = event.GetEventArg();
+            eventArg.TransformationSayen();
+        }
     }
     ```
 - Créer une instance du bus d'évènement : 
 ```
 EventBus eventBus = new();
+```
+- Inscrire une instance de la class dans ce bus d'évènement :
+```
+var maClass = new LaClass();
+eventBus.Register<LaClass>(maClass);
 ```
 - Publier l'évènement qui se produit : 
 ```
@@ -64,14 +73,14 @@ var event = new MonSuperEvent(...params);
 eventBus.Publish(event);
 ```
 
-Ensuite, toutes les méthodes ayant comme paramètre de l'attribut Subscribe le type MonSuperEvent ```[Subscribe(typeof(MonSuperEvent))]``` seront invokés.
+Ensuite,les méthodes ayant comme paramètre de l'attribut Subscribe le type MonSuperEvent ```[Subscribe(typeof(MonSuperEvent))]``` seront invokés, si et seulement si une instance de classe contenant la méthode est inscrite dans le bus d'évènement.
 
 
 
 
 ## Versions
 
-**Première version :** 1.0.0
+**Première version :** 1.0.1
 Implémentation du bus d'évènements qui constitue le coeur du projet
 
 ## TODO : 
