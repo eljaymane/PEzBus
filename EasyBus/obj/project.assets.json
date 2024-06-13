@@ -13,9 +13,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\EasyBus.csproj",
-      "projectName": "EasyBus",
-      "projectPath": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\EasyBus.csproj",
+      "projectUniqueName": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\PEzBus.csproj",
+      "projectName": "PEzBus",
+      "projectPath": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\PEzBus.csproj",
       "packagesPath": "C:\\Users\\Master\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\obj\\",
       "projectStyle": "PackageReference",

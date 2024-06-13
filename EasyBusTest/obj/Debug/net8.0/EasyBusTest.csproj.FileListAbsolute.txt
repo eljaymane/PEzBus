@@ -112,3 +112,4 @@ C:\Users\Master\source\repos\PubSubAttribute\EasyBusTest\obj\Debug\net8.0\refint
 C:\Users\Master\source\repos\PubSubAttribute\EasyBusTest\obj\Debug\net8.0\EasyBusTest.pdb
 C:\Users\Master\source\repos\PubSubAttribute\EasyBusTest\obj\Debug\net8.0\EasyBusTest.genruntimeconfig.cache
 C:\Users\Master\source\repos\PubSubAttribute\EasyBusTest\obj\Debug\net8.0\ref\EasyBusTest.dll
+C:\Users\Master\source\repos\PubSubAttribute\EasyBusTest\obj\Debug\net8.0\EasyBusTest.sourcelink.json

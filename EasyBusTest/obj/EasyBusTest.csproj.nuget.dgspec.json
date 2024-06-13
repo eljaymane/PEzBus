@@ -29,8 +29,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\EasyBus.csproj": {
-                "projectPath": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\EasyBus.csproj"
+              "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\EzBus.csproj": {
+                "projectPath": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\EzBus.csproj"
               }
             }
           }
@@ -87,12 +87,12 @@
         }
       }
     },
-    "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\EasyBus.csproj": {
+    "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\EzBus.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\EasyBus.csproj",
-        "projectName": "EasyBus",
-        "projectPath": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\EasyBus.csproj",
+        "projectUniqueName": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\EzBus.csproj",
+        "projectName": "EzBus",
+        "projectPath": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\EzBus.csproj",
         "packagesPath": "C:\\Users\\Master\\.nuget\\packages\\",
         "outputPath": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\obj\\",
         "projectStyle": "PackageReference",

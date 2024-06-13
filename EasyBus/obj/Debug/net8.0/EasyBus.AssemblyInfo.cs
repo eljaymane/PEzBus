@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("EasyBus")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+70c89b52efff606a40d8b9b96b100191d603eee6")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+05541702a3c2012d82add90db922705e04c98c53")]
 [assembly: System.Reflection.AssemblyProductAttribute("EasyBus")]
 [assembly: System.Reflection.AssemblyTitleAttribute("EasyBus")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

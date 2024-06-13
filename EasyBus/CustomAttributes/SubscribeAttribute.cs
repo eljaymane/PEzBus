@@ -1,4 +1,4 @@
-﻿namespace EasyBus.CustomAttributes
+﻿namespace PEzbus.CustomAttributes
 {
     [AttributeUsage(AttributeTargets.Method, Inherited = false, AllowMultiple = true)]
     public class SubscribeAttribute : Attribute

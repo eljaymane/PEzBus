@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EasyBus
+namespace PEzbus
 {
-    public interface IEzBus<T> where T : IEzEvent
+    public interface IPEzEventBus
     {
-        void Publish(T @event);
+        void Register<T>(T instance);
+        void Publish(IEzEvent @event);
+
     }
 }

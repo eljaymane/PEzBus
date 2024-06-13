@@ -9,3 +9,4 @@ C:\Users\Master\source\repos\PubSubAttribute\EasyBus\obj\Debug\net8.0\EasyBus.dl
 C:\Users\Master\source\repos\PubSubAttribute\EasyBus\obj\Debug\net8.0\refint\EasyBus.dll
 C:\Users\Master\source\repos\PubSubAttribute\EasyBus\obj\Debug\net8.0\EasyBus.pdb
 C:\Users\Master\source\repos\PubSubAttribute\EasyBus\obj\Debug\net8.0\ref\EasyBus.dll
+C:\Users\Master\source\repos\PubSubAttribute\EasyBus\obj\Debug\net8.0\EasyBus.sourcelink.json
