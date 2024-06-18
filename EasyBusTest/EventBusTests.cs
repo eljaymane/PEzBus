@@ -27,7 +27,8 @@ namespace PEzBusTest
         [TestMethod]
         public void Should_Call_Method_With_Args_When_Event_Is_Published()
         {
-            eventBus.Register(this);
+            TestClass test = new ("teesst");
+            eventBus.Register(test);
             eventBus.Publish(new TestEvent("Called you maybe"));
             eventBus.Publish(new TestEvent("1"));
             eventBus.Publish(new TestEvent("2"));
