@@ -16,7 +16,7 @@ namespace PEzbus
         {
             _instances.TryAdd(typeof(T), new WeakReference(instance));
         }
-        public void Publish(IEzEvent @event)
+        public void Publish(IPEzEvent @event)
         {
             //Get methods that has a subscribe attribute with the correct eventType
             var methods = AppDomain.CurrentDomain.GetAssemblies()
@@ -47,7 +47,7 @@ namespace PEzbus
                         var instance = entry.Value.Target;
                         if (param != null) method.Invoke(instance, new object[] { @event });
                         else method.Invoke(instance, null);
-                    }   
+                }   
             }
             
         }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PEzbus
 {
-    public interface IEzEvent
+    public interface IPEzEvent
     {
 
     }

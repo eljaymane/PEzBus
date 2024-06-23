@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace PEzBusTest
 {
-    public class TestEvent : IEzEvent
+    public class TestEvent : IPEzEvent
     {
         public string Message { get; set; }
         public TestEvent()

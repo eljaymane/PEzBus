@@ -9,7 +9,7 @@ namespace PEzbus
     public interface IPEzEventBus
     {
         void Register<T>(T instance);
-        void Publish(IEzEvent @event);
+        void Publish(IPEzEvent @event);
 
     }
 }
