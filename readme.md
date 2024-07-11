@@ -4,7 +4,7 @@
 
 Certaines applications traitant de grands flux d'entrées/sorties de données (i.e les OMS, serveurs de jeux videos ...) nécessitent une grande organisation pour orchestrer l'impacte d'une nouvelle donnée ou action sur les données existantes. Dans ce cas précis, développer un système drivé par les évènements permet de créer un effets dominos et mettre un nom sur ces changements.
 
-Le java a son package Guava de google, qui offre un bus d'évènement qui implémente le pattern Publish / Subscribe et le rend très accessible grâce aux décorateurs de méthodes :
+Le java a son package Guava de google, qui offre un bus d'évènement et implémente le pattern Publish / Subscribe et le rend très accessible grâce aux décorateurs de méthodes :
 
 ```
 ...
