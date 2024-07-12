@@ -22,7 +22,7 @@ namespace PEzbus
 
         private IEnumerable<WeakReference> GetInstancesByType(Type type)
         {
-            return _instances.Values.Where(x => x.Target.GetType() == type);
+            return _instances.Where(x => x.Key.Type == type && x.Value.IsAlive).Select(x => x.Value);
         }
 
         public void Publish(IPEzEvent @event)
@@ -40,11 +40,9 @@ namespace PEzbus
                     foreach (var instance in instances)
                     {
                         if (method.GetParameters().Any(x => @event.GetType() == x.ParameterType))
-                            method.Invoke(instance.Target, new object[] { @event });
+                            method.Invoke(instance.Target, [@event]);
                         else method.Invoke(instance.Target, null);
                     }
-
-                    
                 }
             }
         }

@@ -41,6 +41,22 @@ namespace PEzBusTest
            
         }
 
+        [TestMethod]
+        public void Shoudl_Call_Methods_When_Accessed_Concurrently()
+        {
+            TestClass test = new("teesst");
+            eventBus.Register(test);
+            eventBus.Publish(new TestEvent("Called you maybe"));
+            var testEvents = from testIndex in Enumerable.Range(0, 10)
+                             select new TestEvent(testIndex.ToString());
+
+            Parallel.ForEach(testEvents, testEvent =>
+            {
+                eventBus.Publish(testEvent);
+            });
+
+        }
+
 
         [Subscribe(typeof(TestEvent))]
         public void callMeMaybe()
