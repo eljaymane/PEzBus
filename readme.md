@@ -6,7 +6,7 @@ Certaines applications traitant de grands flux d'entrées/sorties de données (i
 
 Le java a son package Guava de google, qui offre un bus d'évènement et implémente le pattern Publish / Subscribe et le rend très accessible grâce aux décorateurs de méthodes :
 
-```
+```java {"id":"01J2KXAXNVT7KR99R7Z2Q6EGFE"}
 ...
 MyEvent event = new MyEvent();
 eventBus.post(event);
@@ -14,6 +14,7 @@ eventBus.post(event);
 public void handleEvent(MyEvent event){
     ...
 }
+
 
 ```
 
@@ -24,21 +25,20 @@ Par expérience, ce qui manque à cette fonctionalité est la capabilité de mod
 
 ### Performance
 
-Comme les performances sont fondamentalement importantes, voici des tests realisés : 
+Comme les performances sont fondamentalement importantes, voici des tests realisés :
 
-Job=ShortRun  IterationCount=3  LaunchCount=1  
+Job=ShortRun  IterationCount=3  LaunchCount=1
 WarmupCount=3
 
-| Method        | N       | Mean          | Error        | StdDev      | Allocated    |
-|-------------- |-------- |--------------:|-------------:|------------:|-------------:|
-| PublishEvents | 1       |      1.699 us |     3.426 us |   0.1878 us |      2.05 KB |
-| PublishEvents | 1000    |     73.104 us |    13.348 us |   0.7316 us |    316.51 KB |
-| PublishEvents | 4000    |    251.948 us |    39.923 us |   2.1883 us |   1254.06 KB |
-| PublishEvents | 12000   |    704.147 us |   411.158 us |  22.5370 us |   3754.17 KB |
-| PublishEvents | 25000   |  1,429.166 us |   278.583 us |  15.2701 us |   7816.96 KB |
-| PublishEvents | 100000  |  5,655.089 us | 1,939.056 us | 106.2862 us |  31254.84 KB |
-| PublishEvents | 1000000 | 55,356.963 us | 6,016.712 us | 329.7963 us | 312504.88 KB |
-
+| Method        | N       | Mean          | Error         | StdDev      | Allocated    |
+|-------------- |-------- |--------------:|--------------:|------------:|-------------:|
+| PublishEvents | 1       |      1.060 us |     0.0868 us |   0.0048 us |      2.05 KB |
+| PublishEvents | 1000    |     37.127 us |     5.4560 us |   0.2991 us |    316.54 KB |
+| PublishEvents | 4000    |    139.452 us |    31.1420 us |   1.7070 us |   1254.08 KB |
+| PublishEvents | 12000   |    500.748 us |   442.2057 us |  24.2388 us |   3753.92 KB |
+| PublishEvents | 25000   |    824.892 us |   653.0087 us |  35.7936 us |   7816.78 KB |
+| PublishEvents | 100000  |  3,292.051 us | 1,173.5470 us |  64.3261 us |  31254.66 KB |
+| PublishEvents | 1000000 | 35,038.627 us | 7,506.6267 us | 411.4635 us | 312505.48 KB |
 
 ### Pré-requis
 
@@ -46,68 +46,81 @@ Principalement du café et optionellement un clavier
 
 ### Installation
 
-```
+```sh {"id":"01J2KXAXNW7XF4PPWYZPVX70QG"}
 
  dotnet add package PEzBus
+
 
 ```
 
 ## Démarrage
 
-L'utilisation est plutôt simple : 
-- Créer des classes représentants des évènements (accessoirement avec des attributs pour la transmission de donnée) qui implémente l'interface IEzEvent. L'idéale est de choisir des noms claires qui définissent l'évènement en question : i.e OrderCreatedEvent
-- Implémenter des méthodes décorées avec l'attribut Subscribe comme suit : 
-    ```
-    public class LaClass {
-        [Subscribe(typeof(MonSuperEvent))]
-        public void MaSuperMethode(){
-            ...
-        }
-    }
-    ```
-    ou encore : 
+L'utilisation est plutôt simple :
 
-     ```
-    public class LaClass {
-        [Subscribe(typeof(MonSuperEvent))]
-        public void MaSuperMethode(MonSuperEvent event){
-            var eventArg = event.GetEventArg();
-            eventArg.TransformationSayen();
-        }
+- Créer des classes représentants des évènements (accessoirement avec des attributs pour la transmission de donnée) qui implémente l'interface IEzEvent. L'idéale est de choisir des noms claires qui définissent l'évènement en question : i.e OrderCreatedEvent
+
+- Implémenter des méthodes décorées avec l'attribut Subscribe comme suit :
+
+```cs {"id":"01J2KXAXNW7XF4PPWYZQS3BWBZ"}
+public class LaClass {
+    [Subscribe(typeof(MonSuperEvent))]
+    public void MaSuperMethode(){
+        ...
     }
-    ```
-- Créer une instance du bus d'évènement : 
+}
+
 ```
+
+ou encore :
+
+```cs {"id":"01J2KXAXNW7XF4PPWYZSSDTMHJ"}
+public class LaClass {
+   [Subscribe(typeof(MonSuperEvent))]
+   public void MaSuperMethode(MonSuperEvent event){
+       var eventArg = event.GetEventArg();
+       eventArg.TransformationSayen();
+   }
+}
+
+```
+
+- Créer une instance du bus d'évènement :
+
+```sh {"id":"01J2KXAXNW7XF4PPWYZTXSXBPX"}
 EventBus eventBus = new();
+
 ```
+
 - Inscrire une instance de la class dans ce bus d'évènement :
-```
+
+```ini {"id":"01J2KXAXNW7XF4PPWYZXPVRG3P"}
 var maClass = new LaClass();
 eventBus.Register<LaClass>(maClass);
+
 ```
-- Publier l'évènement qui se produit : 
-```
+
+- Publier l'évènement qui se produit :
+
+```sh {"id":"01J2KXAXNW7XF4PPWYZXSY1Q4T"}
 var event = new MonSuperEvent(...params);
 eventBus.Publish(event);
+
 ```
 
-Ensuite,les méthodes ayant comme paramètre de l'attribut Subscribe le type MonSuperEvent ```[Subscribe(typeof(MonSuperEvent))]``` seront invokés, si et seulement si une instance de classe contenant la méthode est inscrite dans le bus d'évènement.
-
-
-
+Ensuite,les méthodes ayant comme paramètre de l'attribut Subscribe le type MonSuperEvent `[Subscribe(typeof(MonSuperEvent))]` seront invokés, si et seulement si une instance de classe contenant la méthode est inscrite dans le bus d'évènement.
 
 ## Versions
 
 **Première version :** 1.0.1
 Implémentation du bus d'évènements qui constitue le coeur du projet
 
-## TODO : 
+## TODO :
+
 Modéliser l'impacte que pourrait avoir un évènement sur les données existantes dans l'application en se basant sur le nom des évènements, le nom des méthodes, ainsi que les commentaires XML.
 
 ## Auteurs
 
-* **Aymane EL JAHRANI** _alias_ [@eljaymane](https://github.com/eljaymane)
-
+* __Aymane EL JAHRANI__ _alias_ [@eljaymane](https://github.com/eljaymane)
 
 ## License
 
