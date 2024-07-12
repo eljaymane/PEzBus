@@ -8,27 +8,24 @@
     "net8.0": []
   },
   "packageFolders": {
-    "C:\\Users\\Master\\.nuget\\packages\\": {}
+    "/root/.nuget/packages/": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\PEzBus.csproj",
+      "projectUniqueName": "/home/anter0p/Projects/C_Sharp/PEzBus/EasyBus/PEzBus.csproj",
       "projectName": "PEzBus",
-      "projectPath": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\PEzBus.csproj",
-      "packagesPath": "C:\\Users\\Master\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Master\\source\\repos\\PubSubAttribute\\EasyBus\\obj\\",
+      "projectPath": "/home/anter0p/Projects/C_Sharp/PEzBus/EasyBus/PEzBus.csproj",
+      "packagesPath": "/root/.nuget/packages/",
+      "outputPath": "/home/anter0p/Projects/C_Sharp/PEzBus/EasyBus/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Master\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+        "/root/.nuget/NuGet/NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net8.0"
       ],
       "sources": {
-        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
-        "C:\\Program Files\\dotnet\\library-packs": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -67,7 +64,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.300/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/8.0.301/PortableRuntimeIdentifierGraph.json"
       }
     }
   }
