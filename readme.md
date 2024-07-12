@@ -22,6 +22,24 @@ L'idée de ce package et d'apporter ce mode de fonctionnement plus adéquat aux 
 
 Par expérience, ce qui manque à cette fonctionalité est la capabilité de modéliser l'impacte d'un évènement sur le système. Pouvoir générer une documentation qui se base sur les évènements et les commentaires XML pour modéliser un système est à mon sens largement suffisant pour décrire le fonctionnement d'un système basé sur les évènements.
 
+### Performance
+
+Comme les performances sont fondamentalement importantes, voici des tests realisés : 
+
+Job=ShortRun  IterationCount=3  LaunchCount=1  
+WarmupCount=3
+
+| Method        | N       | Mean          | Error        | StdDev      | Allocated    |
+|-------------- |-------- |--------------:|-------------:|------------:|-------------:|
+| PublishEvents | 1       |      1.699 us |     3.426 us |   0.1878 us |      2.05 KB |
+| PublishEvents | 1000    |     73.104 us |    13.348 us |   0.7316 us |    316.51 KB |
+| PublishEvents | 4000    |    251.948 us |    39.923 us |   2.1883 us |   1254.06 KB |
+| PublishEvents | 12000   |    704.147 us |   411.158 us |  22.5370 us |   3754.17 KB |
+| PublishEvents | 25000   |  1,429.166 us |   278.583 us |  15.2701 us |   7816.96 KB |
+| PublishEvents | 100000  |  5,655.089 us | 1,939.056 us | 106.2862 us |  31254.84 KB |
+| PublishEvents | 1000000 | 55,356.963 us | 6,016.712 us | 329.7963 us | 312504.88 KB |
+
+
 ### Pré-requis
 
 Principalement du café et optionellement un clavier

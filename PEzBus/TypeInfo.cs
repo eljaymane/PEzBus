@@ -1,4 +1,7 @@
+using System.Collections;
 using System.Reflection;
+using System.Runtime.CompilerServices;
+using System.Security.Cryptography;
 using PEzbus.CustomAttributes;
 using StructLinq;
 
@@ -6,27 +9,41 @@ namespace PEzbus;
 
 public readonly struct TypeInfo
 {
-    public readonly Type @Type;
-    public readonly MethodInfo[] MethodInfos;
+    private readonly Dictionary<MethodInfo,IEnumerable<Type>> _handledEvents;
+    // private readonly IReadOnlyList<IPEzEvent> _handledEvents;
 
-    public TypeInfo(Type type, MethodInfo[] methodInfos)
+    public TypeInfo(in IReadOnlyList<MethodInfo> methodInfos)
     {
-        @Type = type;
-        MethodInfos = methodInfos;
+        _handledEvents = GetHandledEvents(methodInfos);
     }
 
+    public Dictionary<MethodInfo,IEnumerable<Type>> GetHandledEvents(IReadOnlyList<MethodInfo> methodInfos)
+    {
+        var result = new Dictionary<MethodInfo, IEnumerable<Type>>();
+        foreach (var method in methodInfos)
+        {
+            result.AddOrUpdate(method, method.GetCustomAttributes()
+                .Select(x => ((SubscribeAttribute)x).Event));
+        }
+        return result;
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
     public IEnumerable<MethodInfo> GetMatchingMethods(IPEzEvent @event)
     {
-        try
-        {
-            var methods = MethodInfos.Where(x => x.GetCustomAttributes()
-                .Where(x => x.GetType() == typeof(SubscribeAttribute))
-                .Any(x => ((SubscribeAttribute)x).Event == @event.GetType()));
+            var methods = _handledEvents
+                .Where(x => x.Value.Contains(@event.GetType()))
+                .Select(x => x.Key);
             return methods;
-        }
-        catch (Exception)
-        {
-            return Array.Empty<MethodInfo>();
-        }
+    }
+    [MethodImpl(MethodImplOptions.AggressiveInlining)]
+    public bool AnyMatchingMethods(IPEzEvent @event)
+    {
+        return _handledEvents.Values.Any(x => x == @event.GetType());
+    }
+
+    public override int GetHashCode()
+    {
+        return _handledEvents.GetHashCode() - RandomNumberGenerator.GetInt32(84);
     }
 }
+

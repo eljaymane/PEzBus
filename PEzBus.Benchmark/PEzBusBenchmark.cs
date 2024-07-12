@@ -18,7 +18,7 @@ public class PEzBusBenchmark
         _eventBus.Register(handler);
     }
 
-    [Params(1, 4_000,50_000,100_000,1_000_000)] public int N;
+    [Params(1, 1_000,4_000,12_000,25_000,100_000,1_000_000)] public int N;
     [Benchmark]
     public void PublishEvents()
     {
@@ -30,7 +30,7 @@ public class PEzBusBenchmark
     
     public class TestEvent : IPEzEvent
     {
-        public int Id {  get; set; }
+        public int Id { get; }
         public string Argument { get; set; }
         public TestEvent(int id)
         {
@@ -38,18 +38,18 @@ public class PEzBusBenchmark
         }
     }
 
-    public class TestEventHandler
+    public sealed class TestEventHandler
     {
         [Subscribe(typeof(TestEvent))]
         public void HandleTestEventOne(TestEvent testEvent)
         {
-            testEvent.Argument = "voilà";
+            testEvent.Argument = "voilï¿½";
             //Console.WriteLine($"Handler one : {testEvent.Argument}");
         }
 
         [Subscribe(typeof(TestEvent))]
         public void HandleTestEventTwo(TestEvent testEvent)
         {
-            testEvent.Argument = "voilà";
+            testEvent.Argument = "voilï¿½";
         }
     }

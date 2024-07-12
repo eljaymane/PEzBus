@@ -7,7 +7,7 @@ using System.Runtime.CompilerServices;
 namespace PEzBusTest
 {
     [TestClass]
-    public class EventBusTests
+    public class PEzBusTests
     {
         private PEzEventBus eventBus;
         private int _CallNumbers;
@@ -42,19 +42,21 @@ namespace PEzBusTest
         }
 
         [TestMethod]
-        public void Shoudl_Call_Methods_When_Accessed_Concurrently()
+        public void Shoudl_Call_Methods_When_Multiple_Events_AreHandled()
         {
             TestClass test = new("teesst");
             eventBus.Register(test);
             eventBus.Publish(new TestEvent("Called you maybe"));
-            var testEvents = from testIndex in Enumerable.Range(0, 10)
+            IEnumerable<IPEzEvent> testEvents = from testIndex in Enumerable.Range(0, 10)
                              select new TestEvent(testIndex.ToString());
+            IEnumerable<IPEzEvent> testEvents2 = from testIndex in Enumerable.Range(0, 10)
+                             select new AnotherTestEvent((testIndex.ToString()));
+            testEvents = testEvents.Concat(testEvents);
 
             Parallel.ForEach(testEvents, testEvent =>
             {
                 eventBus.Publish(testEvent);
             });
-
         }
 
 

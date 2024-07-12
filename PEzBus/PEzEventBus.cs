@@ -1,11 +1,11 @@
 ﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Reflection;
+using System.Runtime.CompilerServices;
 using StructLinq;
 using PEzbus.CustomAttributes;
 
-namespace PEzbus
-{
+namespace PEzbus;
     public class PEzEventBus : IPEzEventBus
     {
         private ConcurrentDictionary<TypeInfo,WeakReference> _instances;
@@ -16,35 +16,34 @@ namespace PEzbus
 
         public void Register<T>(T instance)
         {
-            var typeInfo = new TypeInfo(typeof(T), typeof(T).GetMethods());
-            _instances.TryAdd(typeInfo, new WeakReference(instance));
-        }
-
-        private IEnumerable<WeakReference> GetInstancesByType(Type type)
-        {
-            return _instances.Where(x => x.Key.Type == type && x.Value.IsAlive).Select(x => x.Value);
+            var methods = typeof(T).GetMethods()
+                .Where(methodInfo => methodInfo.GetCustomAttributes()
+                    .Any(x => x.GetType() == Global.SubscribeAttributeType));
+            
+            var typeInfo = new TypeInfo(methods.ToList());
+            _instances.TryAdd(typeInfo, new WeakReference(instance,true));
         }
 
         public void Publish(IPEzEvent @event)
         {
-            var entries = _instances.Keys.Select(x => new
+            var entries = _instances
+                .Where(x => x.Value.IsAlive)
+                .Select(x => new
             {
-                @Type = x.@Type,
-                Methods =  x.GetMatchingMethods(@event)
+                Methods =  x.Key.GetMatchingMethods(@event),
+                Instance = x.Value.Target
             });
+
             foreach (var entry in entries)
             {
-                var instances = GetInstancesByType(entry.@Type);
-                foreach (var method in entry.Methods)
+                Parallel.ForEach(entry.Methods, method =>
                 {
-                    foreach (var instance in instances)
-                    {
-                        if (method.GetParameters().Any(x => @event.GetType() == x.ParameterType))
-                            method.Invoke(instance.Target, [@event]);
-                        else method.Invoke(instance.Target, null);
-                    }
-                }
+                    if (method.GetParameters().Any(x => @event.GetType() == x.ParameterType))
+                        method.Invoke(entry.Instance, [@event]);
+                    else method.Invoke(entry.Instance, null);
+                });
             }
         }
+        
     }
-}
+
