@@ -37,7 +37,7 @@ namespace PEzBus.Repository
 
         public void Cleanup()
         {
-            _EventsInstanceMapping.RemoveAll<ReferenceInfo, WeakReference>(entry => entry.Key.HandledEvent == null || entry.Value.IsAlive);
+            _EventsInstanceMapping.RemoveAll<ReferenceInfo, WeakReference>(entry => entry.Key.HandledEvent == null || !entry.Value.IsAlive);
         }
     }
 }
