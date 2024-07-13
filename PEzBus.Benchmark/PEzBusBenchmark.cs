@@ -1,6 +1,7 @@
 using BenchmarkDotNet.Attributes;
 using PEzbus;
 using PEzbus.CustomAttributes;
+using PEzBus.EventBus;
 
 namespace PEzBus.Benchmark;
 
@@ -13,17 +14,20 @@ public class PEzBusBenchmark
     [GlobalSetup]
     public void Setup()
     {
-        _eventBus = new PEzEventBus();
-        var handler = new TestEventHandler();
-        _eventBus.Register(handler);
+        _eventBus = new PEzEventBus(new PEzMethodInvoker());
+        for (int i = 0; i < 10; i++)
+        {
+            var handler = new TestEventHandler(i);
+            _eventBus.Register(handler);
+        }
+           
     }
 
-    [Params(1, 1_000,4_000,12_000,25_000,100_000,1_000_000)] public int N;
+    [Params(1, 1_000,4_000,12_000,25_000,100_000)] public int N;
     [Benchmark]
     public void PublishEvents()
     {
-        var ids = Enumerable.Range(0, N);
-        Parallel.ForEach(ids, id => _eventBus.Publish(new TestEvent(N)));
+        Parallel.ForEach(Enumerable.Range(0, N), id => _eventBus.Publish(new TestEvent(N)));
     }
 
 }
@@ -40,7 +44,14 @@ public class PEzBusBenchmark
 
     public sealed class TestEventHandler
     {
-        [Subscribe(typeof(TestEvent))]
+        public int Id { get; set; }
+
+    public TestEventHandler(int id)
+    {
+        Id = id;
+    }
+
+    [Subscribe(typeof(TestEvent))]
         public void HandleTestEventOne(TestEvent testEvent)
         {
             testEvent.Argument = "voil�";

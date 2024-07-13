@@ -1,8 +1,8 @@
-using PEzbus;
 using PEzbus.CustomAttributes;
 using System.Linq;
 using NuGet.Frameworks;
 using System.Runtime.CompilerServices;
+using PEzBus.EventBus;
 
 namespace PEzBusTest
 {
@@ -15,7 +15,7 @@ namespace PEzBusTest
         [TestInitialize]
         public void Initialize()
         {
-            eventBus = new();
+            eventBus = new(new PEzMethodInvoker());
             _CallNumbers = 0;
         }
         [TestMethod]
