@@ -1,4 +1,5 @@
-using PEzBus.EventBus;
+using PEzBus.EventBus.Events;
+using PEzBus.EventBus.MethodInvoker;
 
 namespace PEzBusTest;
 

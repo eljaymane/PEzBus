@@ -3,6 +3,8 @@ using System.Linq;
 using NuGet.Frameworks;
 using System.Runtime.CompilerServices;
 using PEzBus.EventBus;
+using PEzBus.EventBus.Events;
+using PEzBus.EventBus.MethodInvoker;
 
 namespace PEzBusTest
 {

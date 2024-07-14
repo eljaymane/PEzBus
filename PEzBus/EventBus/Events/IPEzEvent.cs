@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PEzBus.EventBus
+namespace PEzBus.EventBus.Events
 {
     public interface IPEzEvent
     {

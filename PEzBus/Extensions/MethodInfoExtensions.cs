@@ -6,17 +6,10 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PEzBus.Extensions
-{
+namespace PEzBus.Extensions;
     public static class MethodInfoExtensions
     {
-        public static SubscribeAttribute? GetSubscribeAttribute(this MethodInfo methodInfo)
-        {
-            if (methodInfo == null) goto EXIT;
-            else if (methodInfo.GetCustomAttributes().Any(x => x.GetType() == typeof(SubscribeAttribute)))
-                return methodInfo.GetCustomAttribute(typeof(SubscribeAttribute)) as SubscribeAttribute;
-        EXIT:
-            return null;
-        }
+        public static SubscribeAttribute? GetSubscribeAttribute(this MethodInfo methodInfo) 
+            => methodInfo.GetCustomAttribute(Global.SubscribeAttributeType) as SubscribeAttribute;
     }
-}
+

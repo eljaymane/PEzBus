@@ -1,9 +1,10 @@
-﻿using PEzBus.EventBus;
+﻿using PEzBus.EventBus.MethodInvoker;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PEzBus.EventBus.Events;
 
 namespace PEzBusTest
 {
