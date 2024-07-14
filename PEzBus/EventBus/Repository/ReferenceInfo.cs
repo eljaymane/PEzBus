@@ -12,22 +12,21 @@ namespace PEzBus.EventBus.Repository;
 
 public readonly struct ReferenceInfo : IEquatable<ReferenceInfo>
 {
-    public MethodInfo MethodInfo { get; }
+    public MethodInfo Method { get; }
     private readonly WeakReference Instance { get; }
     public string? InstanceClassName { get; }
     public bool IsAlive => Instance?.IsAlive ?? false;
     public object? Target => IsAlive ? Instance.Target : null;
-    public ReferenceInfo(in MethodInfo methodInfo, WeakReference instance,string? instanceClassName = "")
+    public ReferenceInfo(in MethodInfo method, WeakReference instance,string? instanceClassName = "")
     {
         InstanceClassName = instanceClassName;
-        MethodInfo = methodInfo;
-        GetHandledEvent(methodInfo, out var type);
+        Method = method;
         Instance = instance;
     }
 
-    private bool GetHandledEvent(MethodInfo methodInfos, [MaybeNullWhen(false)] out Type? type)
+     public bool GetHandledEvent(MethodInfo methodInfos, [MaybeNullWhen(false)] out Type? type)
     {
-        var subscribeAttribute = MethodInfo.GetSubscribeAttribute();
+        var subscribeAttribute = Method.GetSubscribeAttribute();
         if (subscribeAttribute == null)
         {
             type = null;
@@ -40,7 +39,7 @@ public readonly struct ReferenceInfo : IEquatable<ReferenceInfo>
 
     public bool Equals(ReferenceInfo other)
     {
-        return Instance == other.Instance && other.MethodInfo == MethodInfo;
+        return Instance == other.Instance && other.Method == Method;
     }
 
     public override int GetHashCode()

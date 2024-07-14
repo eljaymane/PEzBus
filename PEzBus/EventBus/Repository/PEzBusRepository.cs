@@ -16,8 +16,9 @@ namespace PEzBus.EventBus.Repository
             var methods = instance!.GetType().GetMethodsOfInstance<T>();
             foreach (var method in methods)
             {
-                var typeInfo = new ReferenceInfo(method,new WeakReference(instance, true), instance.GetType().Name);
-                _eventsInstanceMapping.TryAdd(instance.GetType(), typeInfo);
+                var referenceInfo = new ReferenceInfo(method,new WeakReference(instance, true), instance.GetType().Name);
+                referenceInfo.GetHandledEvent(method, out var handledEvent);
+                _eventsInstanceMapping.TryAdd(handledEvent!, referenceInfo);
             }
         }
 
@@ -27,7 +28,7 @@ namespace PEzBus.EventBus.Repository
                     .Where(x => x.Value.IsAlive && x.Key == @event.GetType())
                     .Select(x => new KeyValuePair<MethodInfo, object>
                         (
-                            x.Value.MethodInfo,
+                            x.Value.Method,
                             x.Value.Target!
                         )
                     );

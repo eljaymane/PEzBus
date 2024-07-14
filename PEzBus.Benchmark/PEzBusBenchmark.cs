@@ -17,7 +17,7 @@ public class PEzBusBenchmark
     public void Setup()
     {
         _eventBus = new PEzEventBus(new PEzMethodInvoker());
-        for (int i = 0; i < 10 ; i++)
+        for (int i = 0; i <  500; i++)
         {
             var handler = new TestEventHandler(i);
             _eventBus.Register(handler);

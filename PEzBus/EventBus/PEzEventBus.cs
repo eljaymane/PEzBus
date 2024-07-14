@@ -4,7 +4,7 @@ using PEzBus.EventBus.MethodInvoker;
 using PEzBus.EventBus.Repository;
 
 namespace PEzBus.EventBus;
-public sealed class PEzEventBus(IPezMethodInvoker methodInvoker) : IPEzEventBus
+public sealed class PEzEventBus(IPEzMethodInvoker methodInvoker) : IPEzEventBus
 {
     private readonly IPEzBusRepository _busRepository = new PEzBusRepository();
 
