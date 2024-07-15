@@ -1,9 +1,8 @@
 using PEzBus.EventBus.Events;
-using PEzBus.EventBus.MethodInvoker;
 
 namespace PEzBusTest;
 
-public class AnotherTestEvent: IPEzEvent
+public class AnotherTestEvent: IEvent
 {
     public string Args { get; set; }
     public AnotherTestEvent(string args)

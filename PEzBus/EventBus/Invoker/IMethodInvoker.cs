@@ -8,8 +8,8 @@ using PEzBus.EventBus.Events;
 
 namespace PEzBus.EventBus.MethodInvoker
 {
-    public interface IPEzMethodInvoker
+    public interface IMethodInvoker
     {
-        void InvokeMethods(in IEnumerable<KeyValuePair<MethodInfo,object>> methods,IPEzEvent @event);
+        void InvokeMethods(in IEnumerable<KeyValuePair<MethodInfo,object>> methods,IEvent @event);
     }
 }

@@ -1,11 +1,12 @@
 ﻿using System.Reflection;
 using PEzBus.EventBus.Events;
+using PEzBus.EventsPubSub.Invoker;
 
 namespace PEzBus.EventBus.MethodInvoker
 {
-    public class PEzMethodInvoker : IPEzMethodInvoker
+    public class MethodInvoker : IMethodInvoker
     {
-        public void InvokeMethods(in IEnumerable<KeyValuePair<MethodInfo, object>> methods, IPEzEvent @event)
+        public void InvokeMethods(in IEnumerable<KeyValuePair<MethodInfo, object>> methods, IEvent @event)
         {
             foreach (var method in methods)
             {

@@ -1,5 +1,4 @@
-﻿using PEzBus.EventBus.MethodInvoker;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,7 +7,7 @@ using PEzBus.EventBus.Events;
 
 namespace PEzBusTest
 {
-    public class TestEvent : IPEzEvent
+    public class TestEvent : IEvent
     {
         public string Message { get; set; }
         public TestEvent()

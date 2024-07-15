@@ -1,21 +1,21 @@
-﻿using PEzbus;
-using PEzBus.Extensions;
-using System.Collections.Concurrent;
+﻿using System.Collections.Concurrent;
 using System.Reflection;
 using PEzBus.EventBus.Events;
 using PEzBus.EventBus.MethodInvoker;
+using PEzBus.EventBus.Repository;
+using PEzBus.Extensions;
 using PEzBus.Types;
 using PEzBus.Util;
+using StructLinq;
 
-
-namespace PEzBus.EventBus.Repository
+namespace PEzBus.EventsPubSub.Repository
 {
-    public class EventsRepository : IBusRepository<IPEzEvent,EventPriority>
+    public class EventsRepository : IRepository<IEvent,EventPriority>
     {
-        private readonly ConcurrentPriorityQueue<IPEzEvent, EventPriority> _eventsQueue = new(new EventsPriorityComparer());
-        private readonly ConcurrentDictionary<Type,ReferenceInfo> _eventsInstanceMapping = new();
+        private readonly ConcurrentPriorityQueue<IEvent, EventPriority> _eventsQueue = new(new EventsPriorityComparer());
+        private readonly ConcurrentDictionary<Type,List<EventsInfos>> _eventsInstanceMapping = new();
         private Thread _invokerThread;
-        private IPEzMethodInvoker _methodInvoker = new PEzMethodInvoker();
+        private IMethodInvoker _methodInvoker = new EventBus.MethodInvoker.MethodInvoker();
         public EventsRepository()
         {
             _invokerThread = BackgroundThread.Start(HandleEvents);
@@ -29,9 +29,9 @@ namespace PEzBus.EventBus.Repository
             }
         }
 
-        private void HandleEvent(IPEzEvent @event)
+        private void HandleEvent(IEvent @event)
         {
-             var entries = GetMatchingReferences(@event);
+             var entries = GetMatchingMethodsAndTargets(@event);
              _methodInvoker.InvokeMethods(entries,@event);
         }
 
@@ -40,27 +40,52 @@ namespace PEzBus.EventBus.Repository
             var methods = instance!.GetType().GetMethodsOfInstance<T>();
             foreach (var method in methods)
             {
-                var referenceInfo = new ReferenceInfo(method,new WeakReference(instance, true), instance.GetType().Name);
-                if(referenceInfo.GetHandledEvent(method, out var handledEvent))
-                    _eventsInstanceMapping.TryAdd(handledEvent!, referenceInfo);
+                var referenceInfo = EventsInfos.FromInstance(instance,method);
+                referenceInfo.GetHandledEvent(out var handledEvent);
+                if (_eventsInstanceMapping.ContainsKey(handledEvent!))
+                    _eventsInstanceMapping[handledEvent!].Add(referenceInfo);
+                else _eventsInstanceMapping.TryAdd(handledEvent!, [referenceInfo]);
+            }
+        }
+        public void Register<T>(IReadOnlyList<T> instances)
+        {
+            foreach (var instance in instances)
+            {
+                var methods = instance!.GetType().GetMethodsOfInstance<T>();
+                foreach (var method in methods)
+                {
+                    var referenceInfo = EventsInfos.FromInstance(instance,method);
+                        
+                    referenceInfo.GetHandledEvent(out var handledEvent);
+                    if (_eventsInstanceMapping.ContainsKey(handledEvent!))
+                        _eventsInstanceMapping[handledEvent!].Add(referenceInfo);
+                    else _eventsInstanceMapping.TryAdd(handledEvent!, [referenceInfo]);
+                }
             }
         }
         
-        public void Publish (IPEzEvent @event, EventPriority priority = EventPriority.HIGH)
+        public void Publish (IEvent @event, EventPriority priority = EventPriority.HIGH)
         {
-            _eventsQueue.TryEnqueue(new KeyValuePair<IPEzEvent, EventPriority>(@event, priority));
+            _eventsQueue.TryEnqueue(new KeyValuePair<IEvent, EventPriority>(@event, priority));
         }
 
-         private IEnumerable<KeyValuePair<MethodInfo,object>> GetMatchingReferences(IPEzEvent @event)
+         public IEnumerable <KeyValuePair<MethodInfo, object>> GetValidInstances(IEvent @event, Func<EventsInfos,bool> predicate)
         {
-            return _eventsInstanceMapping
-                    .Where(x => x.Key == @event.GetType() && x.Value.IsAlive)
-                    .Select(x => new KeyValuePair<MethodInfo, object>
-                        (
-                            x.Value.Method,
-                            x.Value.Target!
-                        )
-                    );
+             return  _eventsInstanceMapping[@event.GetType()]
+                            .ToStructEnumerable()
+                            .Where(predicate)
+                            .Select(referenceInfo => new KeyValuePair<MethodInfo, object>(
+                                referenceInfo.Method,
+                                referenceInfo.Target
+                            )).ToEnumerable();
+        }
+
+        public IEnumerable<KeyValuePair<MethodInfo,object>> GetMatchingMethodsAndTargets(IEvent @event)
+        {
+            var eventInstances = GetValidInstances(@event, x => x.IsAlive);
+      
+            if (!eventInstances.Any()) return ArraySegment<KeyValuePair<MethodInfo, object>>.Empty;
+            return eventInstances;
         }
 
          private class EventsPriorityComparer : IComparer<(EventPriority,int)>

@@ -1,20 +1,21 @@
-﻿using PEzbus.EventBus;
+﻿using PEzbus.EventsPubSub;
 using PEzBus.EventBus.Events;
-using PEzBus.EventBus.MethodInvoker;
 using PEzBus.EventBus.Repository;
+using PEzBus.EventsPubSub.Repository;
 
-namespace PEzBus.EventBus;
-public sealed class PEzEventBus() : IPEzEventBus
+namespace PEzbus.EventsPubSub;
+
+public sealed class EventBus : IEventBus
 {
-    private readonly IBusRepository<IPEzEvent,EventPriority> _busRepository = new EventsRepository();
+    private readonly IRepository<IEvent,EventPriority> _repository = new EventsRepository();
 
     public void Register<T>(T instance)
     {
-       _busRepository.Register<T>(instance);
+       _repository.Register(instance);
     }
-    public void Publish(IPEzEvent @event,EventPriority priority = EventPriority.HIGH)
+    public void Publish(IEvent @event,EventPriority priority = EventPriority.HIGH)
     {
-        _busRepository.Publish(@event, priority);
+        _repository.Publish(@event, priority);
     }
 }
 
