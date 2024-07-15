@@ -17,7 +17,7 @@ namespace PEzBusTest
         [TestInitialize]
         public void Initialize()
         {
-            eventBus = new(new PEzMethodInvoker());
+            eventBus = new();
             _CallNumbers = 0;
         }
         [TestMethod]

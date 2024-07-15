@@ -10,10 +10,10 @@ using StructLinq;
 
 namespace PEzBus.EventBus.Repository;
 
-public readonly struct ReferenceInfo : IEquatable<ReferenceInfo>
+public sealed class ReferenceInfo : IEquatable<ReferenceInfo>
 {
     public MethodInfo Method { get; }
-    private readonly WeakReference Instance { get; }
+    private WeakReference Instance { get; }
     public string? InstanceClassName { get; }
     public bool IsAlive => Instance?.IsAlive ?? false;
     public object? Target => IsAlive ? Instance.Target : null;

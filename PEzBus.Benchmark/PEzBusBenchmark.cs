@@ -4,6 +4,7 @@ using PEzbus.EventBus;
 using PEzBus.EventBus;
 using PEzBus.EventBus.Events;
 using PEzBus.EventBus.MethodInvoker;
+using PEzBus.EventBus.Repository;
 
 namespace PEzBus.Benchmark;
 
@@ -11,12 +12,12 @@ namespace PEzBus.Benchmark;
 [MemoryDiagnoser(false)]
 public class PEzBusBenchmark
 {
-    private IPEzEventBus _eventBus = new PEzEventBus(new PEzMethodInvoker());
+    private IPEzEventBus _eventBus = new PEzEventBus();
 
     [GlobalSetup]
     public void Setup()
     {
-        _eventBus = new PEzEventBus(new PEzMethodInvoker());
+        _eventBus = new PEzEventBus();
         for (int i = 0; i <  500; i++)
         {
             var handler = new TestEventHandler(i);
@@ -29,7 +30,7 @@ public class PEzBusBenchmark
     [Benchmark]
     public void PublishEvents()
     {
-        Parallel.ForEach(Enumerable.Range(0, N), id => _eventBus.Publish(new TestEvent(N)));
+        Parallel.ForEach(Enumerable.Range(0, N), id => _eventBus.Publish(new TestEvent(N),EventPriority.HIGH));
     }
 
 }

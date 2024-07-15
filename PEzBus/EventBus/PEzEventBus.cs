@@ -4,25 +4,17 @@ using PEzBus.EventBus.MethodInvoker;
 using PEzBus.EventBus.Repository;
 
 namespace PEzBus.EventBus;
-public sealed class PEzEventBus(IPEzMethodInvoker methodInvoker) : IPEzEventBus
+public sealed class PEzEventBus() : IPEzEventBus
 {
-    private readonly IPEzBusRepository _busRepository = new PEzBusRepository();
+    private readonly IBusRepository<IPEzEvent,EventPriority> _busRepository = new EventsRepository();
 
     public void Register<T>(T instance)
     {
        _busRepository.Register<T>(instance);
     }
-
-    public void Publish(IPEzEvent @event)
+    public void Publish(IPEzEvent @event,EventPriority priority = EventPriority.HIGH)
     {
-        var entries = _busRepository.GetMatchingReferences(@event);
-        
-        methodInvoker.InvokeMethods(entries,@event);
-        _busRepository.Cleanup();
+        _busRepository.Publish(@event, priority);
     }
-
-
-
-
 }
 

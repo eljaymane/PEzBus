@@ -4,10 +4,9 @@ using PEzBus.EventBus.MethodInvoker;
 
 namespace PEzBus.EventBus.Repository
 {
-    public interface IPEzBusRepository
+    public interface IBusRepository<TElement, TPriority>
     {
         void Register<T>(T instance);
-        IEnumerable<KeyValuePair<MethodInfo, object>> GetMatchingReferences(IPEzEvent @event);
-        void Cleanup();
+        void Publish(TElement @event, TPriority priority);
     }
 } 
