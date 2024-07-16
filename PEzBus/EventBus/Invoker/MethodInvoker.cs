@@ -1,8 +1,7 @@
 ﻿using System.Reflection;
 using PEzBus.EventBus.Events;
-using PEzBus.EventsPubSub.Invoker;
 
-namespace PEzBus.EventBus.MethodInvoker
+namespace PEzBus.EventBus.Invoker
 {
     public class MethodInvoker : IMethodInvoker
     {

@@ -1,7 +1,9 @@
-﻿using PEzBus.EventBus.Events;
-using PEzBus.EventBus.Repository;
+﻿using System.Collections.Concurrent;
+using PEzBus.EventBus.Events;
+using PEzBus.EventBus.Queue;
+using PEzBus.EventBus.Register;
 
-namespace PEzbus.EventsPubSub;
+namespace PEzBus.EventBus;
 
     public interface IEventBus
     {

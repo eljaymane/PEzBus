@@ -1,10 +1,9 @@
 ﻿using System.Reflection;
 using PEzBus.EventBus.Events;
-using PEzBus.EventBus.MethodInvoker;
 
-namespace PEzBus.EventBus.Repository
+namespace PEzBus.EventBus.Register
 {
-    public interface IRepository<TElement, TPriority>
+    public interface IRegister<TElement, TPriority>
     {
         void Register<T>(T instance);
         void Register<T>(IReadOnlyList<T> instance);

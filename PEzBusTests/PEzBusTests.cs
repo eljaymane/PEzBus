@@ -1,47 +1,45 @@
-using System.Linq;
-using NuGet.Frameworks;
-using System.Runtime.CompilerServices;
-using PEzBus.Attributes;
+using PEzbus.CustomAttributes;
 using PEzBus.EventBus;
 using PEzBus.EventBus.Events;
-using PEzBus.EventBus.Repository;
-using PEzbus.EventsPubSub;
+using PEzBus.EventBus.Queue;
+using PEzBus.EventBus.Register;
+using PEzBusTest;
 
-namespace PEzBusTest
+namespace PEzBusTests
 {
     [TestClass]
     public class PEzBusTests
     {
-        private IEventBus eventBus;
-        private int _CallNumbers;
+        private IEventBus _eventBus;
+        private int _callNumbers;
 
         [TestInitialize]
         public void Initialize()
         {
-            eventBus = new PEzEventBus();
-            _CallNumbers = 0;
+            _eventBus = new PEzBus.EventBus.PEzBus();
+            _callNumbers = 0;
         }
         [TestMethod]
         public void Should_Call_Method_When_Event_IsPublished()
         {
-            eventBus.Register(this);
-            eventBus.Publish(new TestEvent(),EventPriority.High);
+            _eventBus.Register(this);
+            _eventBus.Publish(new TestEvent(),EventPriority.High);
         }
 
         [TestMethod]
         public void Should_Call_Method_With_Args_When_Event_Is_Published()
         {
             TestHandler test = new ("teesst");
-            eventBus.Register(test);
+            _eventBus.Register(test);
             TestHandler test2 = new ("teesst");
-            eventBus.Register(test2);
-            eventBus.Publish(new TestEvent("Called you maybe"),EventPriority.High);
+            _eventBus.Register(test2);
+            _eventBus.Publish(new TestEvent("Called you maybe"),EventPriority.High);
             var testEvents = from testIndex in Enumerable.Range(0,10)
                                             select new TestEvent(testIndex.ToString());
 
             foreach (var testEvent in testEvents)
             {
-                eventBus.Publish(testEvent,EventPriority.High);
+                _eventBus.Publish(testEvent,EventPriority.High);
             }
            
         }
@@ -50,8 +48,8 @@ namespace PEzBusTest
         public void Shoudl_Call_Methods_When_Multiple_Events_AreHandled()
         {
             TestHandler test = new("teesst");
-            eventBus.Register(test);
-            eventBus.Publish(new TestEvent("Called you maybe"),EventPriority.High);
+            _eventBus.Register(test);
+            _eventBus.Publish(new TestEvent("Called you maybe"),EventPriority.High);
             IEnumerable<IEvent> testEvents = from testIndex in Enumerable.Range(0, 10)
                              select new TestEvent(testIndex.ToString());
             IEnumerable<IEvent> testEvents2 = from testIndex in Enumerable.Range(0, 10)
@@ -60,7 +58,7 @@ namespace PEzBusTest
 
             Parallel.ForEach(testEvents, testEvent =>
             {
-                eventBus.Publish(testEvent,EventPriority.High);
+                _eventBus.Publish(testEvent,EventPriority.High);
             });
         }
 
@@ -69,7 +67,7 @@ namespace PEzBusTest
         public void callMeMaybe()
         {
             Console.WriteLine("Called you baby");
-            _CallNumbers++;
+            _callNumbers++;
         }
 
         [Subscribe(typeof(TestEvent))]

@@ -1,27 +1,27 @@
 using BenchmarkDotNet.Attributes;
 using PEzbus.CustomAttributes;
-using PEzbus.EventBus;
 using PEzBus.EventBus;
 using PEzBus.EventBus.Events;
-using PEzBus.EventBus.MethodInvoker;
-using PEzBus.EventBus.Repository;
+using PEzBus.EventBus.Queue;
 
 namespace PEzBus.Benchmark;
 
 [ShortRunJob]
 [MemoryDiagnoser(true)]
-public class PEzBusBenchmark
+public class EventBusBenchmark
 {
-    private IEventBus _eventBus = new EventBus.EventBus();
+    private IEventBus _eventBus = new EventBus.PEzBus();
 
     [GlobalSetup]
     public void Setup()
     {
-        _eventBus = new EventBus.EventBus();
-        for (int i = 0; i < 50; i++)
+        _eventBus = new EventBus.PEzBus();
+        for (int i = 0; i < 10; i++)
         {
-            var handler = new TestEventHandler(i);
+            var handler = new UserEventsHandler(i);
+            var orderHandler = new OrderEventsHandler(i);
             _eventBus.Register(handler);
+            _eventBus.Register(orderHandler);
         }
     }
 
@@ -29,39 +29,8 @@ public class PEzBusBenchmark
     [Benchmark]
     public void PublishEvents()
     {
-        Parallel.ForEach(Enumerable.Range(0, N), id => _eventBus.Publish(new TestEvent(N),EventPriority.HIGH));
+        Parallel.ForEach(Enumerable.Range(0, N), id => _eventBus.Publish(new UserCreatedEvent(N),EventPriority.High));
     }
 }
     
-    public class TestEvent : IEvent
-    {
-        public int Id { get; }
-        public string? Argument { get; set; }
-        public TestEvent(int id)
-        {
-            Id = id;
-        }
-    }
-
-    public sealed class TestEventHandler
-    {
-        public int Id { get; set; }
-
-    public TestEventHandler(int id)
-    {
-        Id = id;
-    }
-
-    [Subscribe(typeof(TestEvent))]
-    public void HandleTestEventOne(TestEvent testEvent)
-    {
-        //testEvent.Argument = "voil�";
-        //Console.WriteLine($"Handler one : {testEvent.Argument}");
-    }
-
-    [Subscribe(typeof(TestEvent))]
-    public void HandleTestEventTwo(TestEvent testEvent)
-    {
-        //testEvent.Argument = "voil�";
-    }
-    }
+   

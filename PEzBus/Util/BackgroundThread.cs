@@ -15,6 +15,17 @@ namespace PEzBus.Util;
         return thread;
     }
     
+    public static Thread Start(ThreadStart startAction,object parameter ,Action? abortAction = null)
+    {
+        var thread = new Thread(startAction)
+        {
+            IsBackground = true
+        };
+        
+        thread.Start(parameter);
+        return thread;
+    }
+    
     private static ParameterizedThreadStart Wrapper<T>(Action<T> action, Action? abortAction)
     {
         return s =>
