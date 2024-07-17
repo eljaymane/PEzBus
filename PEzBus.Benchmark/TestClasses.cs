@@ -62,7 +62,7 @@ namespace PEzBus.Benchmark;
         }
 
         [Subscribe(typeof(OrderUpdatedEvent))]
-        public void UserDeleted(OrderUpdatedEvent testEvent)
+        public void CheckIfComplete(OrderUpdatedEvent testEvent)
         {
             //testEvent.Argument = "voil�";
         }
@@ -78,14 +78,14 @@ namespace PEzBus.Benchmark;
     }
 
     [Subscribe(typeof(UserCreatedEvent))]
-    public void UserCreated(UserCreatedEvent userCreatedEvent)
+    public void SendConfirmaitonEmail(UserCreatedEvent userCreatedEvent)
     {
         //testEvent.Argument = "voil�";
         //Console.WriteLine($"Handler one : {testEvent.Argument}");
     }
 
     [Subscribe(typeof(UserDeletedEvent))]
-    public void UserDeleted(UserDeletedEvent testEvent)
+    public void DeleteUserData(UserDeletedEvent testEvent)
     {
         //testEvent.Argument = "voil�";
     }
