@@ -16,7 +16,7 @@ namespace PEzBusTests
         [TestInitialize]
         public void Initialize()
         {
-            _eventBus = new PEzBus.EventBus.PEzBus();
+            _eventBus = new PEzBus.EventBus.PEzBus(new LocalInstanceRegister());
             _callNumbers = 0;
         }
         [TestMethod]

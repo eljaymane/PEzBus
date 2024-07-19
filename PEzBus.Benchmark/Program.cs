@@ -10,7 +10,7 @@ using PEzBus.Uml;
 
 BenchmarkSwitcher.FromAssembly(typeof(Program).Assembly).Run(args);
 
-var eventBus = new PEzBus.EventBus.PEzBus();
+var eventBus = new PEzBus.EventBus.PEzBus(default);
 
 
 

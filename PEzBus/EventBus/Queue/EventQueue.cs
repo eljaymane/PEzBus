@@ -1,19 +1,19 @@
 using PEzBus.EventBus.Events;
 using PEzBus.EventBus.Invoker;
-using PEzBus.EventBus.Register;
+using PEzBus.EventBus.Register.Abstractions;
 using PEzBus.Types;
 using PEzBus.Util;
 
 namespace PEzBus.EventBus.Queue;
 
-public class EventQueue : IEventQueue
+public class EventQueue<TEvent,TPriority> : IEventQueue
 {
     private Thread _invokerThread;
     private readonly IMethodInvoker _methodInvoker = new Invoker.MethodInvoker();
     private readonly ConcurrentPriorityQueue<IEvent, EventPriority> _eventsQueue = new(new EventsPriorityComparer());
-    private readonly IInstancesRegister? _registerContext;
+    private readonly IInstanceRegister? _registerContext;
 
-    public EventQueue(IInstancesRegister? registerContext)
+    public EventQueue(IInstanceRegister? registerContext)
     {
         _registerContext = registerContext;
     }
@@ -53,17 +53,15 @@ public class EventQueue : IEventQueue
     
     private void HandleEvent(IEvent @event)
     {
-         var entries = _registerContext.GetValidInstances(@event, x => x.IsAlive);
+         var entries = _registerContext?.GetValidInstances(@event, x => x.IsAlive);
          _methodInvoker.InvokeMethods(entries,@event);
     }
 
 
    private class EventsPriorityComparer : IComparer<(EventPriority,int)>
     {
-        public int Compare((EventPriority, int) x, (EventPriority, int) y)
-        {
-            return (y.Item1 - x.Item1) - (y.Item2 - x.Item2);
-        }
+        public int Compare((EventPriority, int) x, (EventPriority, int) y) => (y.Item1 - x.Item1) - (y.Item2 - x.Item2);
+        
     }
 
     

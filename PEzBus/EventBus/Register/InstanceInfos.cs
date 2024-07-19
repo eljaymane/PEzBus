@@ -43,7 +43,7 @@ public sealed class InstanceInfos : IEquatable<InstanceInfos>
 
     public override int GetHashCode()
     {
-        return RandomNumberGenerator.GetInt32(34);
+        return InstanceClassName!.GetHashCode() * Method.GetHashCode();
     }
 
 }

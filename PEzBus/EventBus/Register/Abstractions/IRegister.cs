@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using PEzBus.EventBus.Events;
 
-namespace PEzBus.EventBus.Register
+namespace PEzBus.EventBus.Register.Abstractions
 {
     public interface IRegister<TElement, TPriority>
     {
@@ -9,4 +9,4 @@ namespace PEzBus.EventBus.Register
         void Register<T>(IReadOnlyList<T> instance);
         void Publish(TElement @event, TPriority priority);
     }
-} 
+}

@@ -1,7 +1,7 @@
 using System.Threading;
 namespace PEzBus.Util;
 
- internal static class BackgroundThread
+ public static class BackgroundThread
 {
 
     public static Thread Start(ThreadStart startAction, Action? abortAction = null)
